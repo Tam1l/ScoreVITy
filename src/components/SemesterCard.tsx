@@ -25,7 +25,11 @@ export default function SemesterCard({ semester, onChange, onRemove, canRemove }
   };
 
   const addCourse = () => {
-    onChange({ ...semester, courses: [...semester.courses, createCourse()] });
+    const lastCourse = semester.courses[semester.courses.length - 1];
+    const newCourse = lastCourse
+      ? { ...createCourse(), grade: lastCourse.grade, credits: lastCourse.credits }
+      : createCourse();
+    onChange({ ...semester, courses: [...semester.courses, newCourse] });
   };
 
   return (

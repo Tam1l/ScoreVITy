@@ -28,10 +28,9 @@ export default function CourseRow({ course, index, onChange, onRemove, canRemove
       <span className="text-muted-foreground w-6 sm:w-8 text-sm font-medium">{index + 1}</span>
       <input
         type="text"
-        placeholder="Course name (optional)"
         value={course.name}
         onChange={e => onChange({ ...course, name: e.target.value })}
-        className="bg-transparent flex-1 border-b border-transparent focus:border-primary outline-none text-sm py-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-0"
+        className="flex-1 rounded-md border border-border bg-muted/40 px-2 sm:px-3 py-1.5 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-card transition-colors min-w-0"
       />
       <Select value={course.grade} onValueChange={val => onChange({ ...course, grade: val as Grade })}>
         <SelectTrigger className={`w-16 sm:w-24 border border-border bg-card px-1 sm:px-2 py-1.5 h-auto rounded-md text-sm font-semibold ${gradeColorMap[course.grade]} focus:ring-2 focus:ring-ring focus:ring-offset-0 focus:outline-none transition-colors`}>
