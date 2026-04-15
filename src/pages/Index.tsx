@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { Calculator, BarChart3, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Index() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <ThemeToggle />
       <header className="bg-card/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-4xl mx-auto px-4 py-5 text-center">
           <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mx-auto mb-3">

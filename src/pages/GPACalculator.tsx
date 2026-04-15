@@ -3,10 +3,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Plus, ArrowLeft, Calculator, BookOpen, Info, Save } from 'lucide-react';
 import { Semester, calculateGPA, createSemester, createCourse } from '@/lib/gpa';
 import SemesterCard from '@/components/SemesterCard';
+import { getCookie, loadUserOptions, saveUserOptions } from '@/lib/userOptionsStore';
 import { useNavigate } from 'react-router-dom';
-import { getCookie, setCookie, loadUserOptions, saveUserOptions } from '@/lib/userOptionsStore';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+
 
 export default function GPACalculator() {
   const navigate = useNavigate();
@@ -19,20 +18,26 @@ export default function GPACalculator() {
   const [useLast, setUseLast] = useState<boolean>(initialUseLast);
 
   useEffect(() => {
+    const handleSync = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setUseLast(customEvent.detail);
+      if (customEvent.detail) {
+        const prev = loadUserOptions() || {};
+        saveUserOptions({ ...prev, gpaSemesters: semesters });
+      }
+    }
+    window.addEventListener('optionsToggled', handleSync);
+    return () => window.removeEventListener('optionsToggled', handleSync);
+  }, [semesters]);
+
+  useEffect(() => {
     if (useLast) {
       const prev = loadUserOptions() || {};
       saveUserOptions({ ...prev, gpaSemesters: semesters });
     }
   }, [semesters, useLast]);
 
-  const handleToggleSave = (checked: boolean) => {
-    setUseLast(checked);
-    setCookie('useLastOptions', checked ? 'true' : 'false', 30);
-    if (checked) {
-      const prev = loadUserOptions() || {};
-      saveUserOptions({ ...prev, gpaSemesters: semesters });
-    }
-  };
+
 
   const totalCredits = semesters.flatMap(s => s.courses).reduce((sum, c) => sum + c.credits, 0);
   const totalCourses = semesters.flatMap(s => s.courses).length;
@@ -64,13 +69,7 @@ export default function GPACalculator() {
               <p className="text-xs text-muted-foreground">Semester-wise grade calculation</p>
             </div>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <Switch id="save-options" checked={useLast} onCheckedChange={handleToggleSave} />
-            <Label htmlFor="save-options" className="text-xs text-muted-foreground flex items-center gap-1 cursor-pointer">
-              Use last saved options
-            </Label>
-          </div>
+
         </div>
       </header>
 

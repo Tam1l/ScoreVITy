@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Plus, Trash2, ArrowLeft, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getCookie, loadUserOptions, saveUserOptions } from '@/lib/userOptionsStore';
 
 interface SemesterGPA {
   id: string;
@@ -16,7 +17,35 @@ function createSemEntry(index: number): SemesterGPA {
 
 export default function CGPACalculator() {
   const navigate = useNavigate();
-  const [semesters, setSemesters] = useState<SemesterGPA[]>([createSemEntry(1)]);
+
+  const initialUseLast = getCookie('useLastOptions') === 'true';
+  const initialOptions = initialUseLast ? loadUserOptions() : null;
+  // Note: we can map the generic Semester type to SemesterGPA implicitly, or save it under a different key like `cgpaSemesters`
+  // We'll trust whatever is saved in `cgpaSemesters`
+  const initialSemesters = initialOptions?.cgpaSemesters?.length ? initialOptions.cgpaSemesters as unknown as SemesterGPA[] : [createSemEntry(1)];
+
+  const [semesters, setSemesters] = useState<SemesterGPA[]>(initialSemesters);
+  const [useLast, setUseLast] = useState<boolean>(initialUseLast);
+
+  useEffect(() => {
+    const handleSync = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setUseLast(customEvent.detail);
+      if (customEvent.detail) {
+        const prev = loadUserOptions() || {};
+        saveUserOptions({ ...prev, cgpaSemesters: semesters as any });
+      }
+    }
+    window.addEventListener('optionsToggled', handleSync);
+    return () => window.removeEventListener('optionsToggled', handleSync);
+  }, [semesters]);
+
+  useEffect(() => {
+    if (useLast) {
+      const prev = loadUserOptions() || {};
+      saveUserOptions({ ...prev, cgpaSemesters: semesters as any });
+    }
+  }, [semesters, useLast]);
 
   const updateSem = (index: number, field: keyof SemesterGPA, value: string) => {
     const next = [...semesters];
@@ -95,7 +124,7 @@ export default function CGPACalculator() {
                   step="0.01"
                   min="0"
                   max="10"
-                  placeholder="8.5"
+                  placeholder="e.g. 8.5"
                   value={sem.gpa}
                   onChange={e => updateSem(i, 'gpa', e.target.value)}
                   className="bg-card w-16 sm:w-24 border border-border rounded-md px-1 sm:px-3 py-1.5 text-sm text-foreground focus:ring-2 focus:ring-ring outline-none text-center"
@@ -104,7 +133,7 @@ export default function CGPACalculator() {
                   type="number"
                   step="0.5"
                   min="0"
-                  placeholder="23"
+                  placeholder="e.g. 23"
                   value={sem.credits}
                   onChange={e => updateSem(i, 'credits', e.target.value)}
                   className="bg-card w-16 sm:w-24 border border-border rounded-md px-1 sm:px-3 py-1.5 text-sm text-foreground focus:ring-2 focus:ring-ring outline-none text-center"

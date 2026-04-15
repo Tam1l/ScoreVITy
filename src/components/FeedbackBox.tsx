@@ -74,7 +74,7 @@ export function FeedbackBox() {
             <Textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Type your feedback here..."
+              placeholder="e.g. Type your feedback here..."
               className="resize-none h-24 bg-muted/40 focus:bg-background"
               disabled={isSubmitting}
             />

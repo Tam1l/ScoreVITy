@@ -12,7 +12,6 @@ import NotFound from "./pages/NotFound.tsx";
 const queryClient = new QueryClient();
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { FeedbackBox } from "@/components/FeedbackBox";
 
 const App = () => (
@@ -21,7 +20,6 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <ThemeToggle />
         <FeedbackBox />
         <BrowserRouter>
           <Routes>
