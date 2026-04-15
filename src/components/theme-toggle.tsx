@@ -38,7 +38,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col items-end gap-3">
+    <div className="absolute top-4 right-4 z-50 flex flex-col items-end gap-3">
       <Button 
         variant="outline" 
         size="icon" 
