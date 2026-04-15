@@ -1,7 +1,9 @@
 export const GRADES = ['S', 'A', 'B', 'C', 'D', 'E', 'F'] as const;
 export type Grade = typeof GRADES[number];
 
-export const CREDITS = [1, 1.5, 2, 3, 4] as const;
+export const CREDITS = [
+  1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
+] as const;
 export type Credit = typeof CREDITS[number];
 
 export const GRADE_POINTS: Record<Grade, number> = {

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
-import { Course, GRADES, CREDITS, GRADE_POINTS, Grade, Credit } from '@/lib/gpa';
+import { Course, GRADES, CREDITS, Grade, Credit } from '@/lib/gpa';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Props {
   course: Course;
@@ -32,24 +33,26 @@ export default function CourseRow({ course, index, onChange, onRemove, canRemove
         onChange={e => onChange({ ...course, name: e.target.value })}
         className="bg-transparent flex-1 border-b border-transparent focus:border-primary outline-none text-sm py-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-0"
       />
-      <select
-        value={course.grade}
-        onChange={e => onChange({ ...course, grade: e.target.value as Grade })}
-        className={`bg-card w-16 sm:w-24 border border-border rounded-md px-1 sm:px-2 py-1.5 text-sm font-semibold ${gradeColorMap[course.grade]} focus:ring-2 focus:ring-ring outline-none cursor-pointer transition-colors`}
-      >
-        {GRADES.map(g => (
-          <option key={g} value={g}>{g}</option>
-        ))}
-      </select>
-      <select
-        value={course.credits}
-        onChange={e => onChange({ ...course, credits: Number(e.target.value) as Credit })}
-        className="bg-card w-16 sm:w-24 border border-border rounded-md px-1 sm:px-2 py-1.5 text-sm text-foreground focus:ring-2 focus:ring-ring outline-none cursor-pointer"
-      >
-        {CREDITS.map(c => (
-          <option key={c} value={c}>{c} cr</option>
-        ))}
-      </select>
+      <Select value={course.grade} onValueChange={val => onChange({ ...course, grade: val as Grade })}>
+        <SelectTrigger className={`w-16 sm:w-24 border border-border bg-card px-1 sm:px-2 py-1.5 h-auto rounded-md text-sm font-semibold ${gradeColorMap[course.grade]} focus:ring-2 focus:ring-ring focus:ring-offset-0 focus:outline-none transition-colors`}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="max-h-[200px]">
+          {GRADES.map(g => (
+            <SelectItem key={g} value={g}>{g}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select value={course.credits.toString()} onValueChange={val => onChange({ ...course, credits: Number(val) as Credit })}>
+        <SelectTrigger className="w-16 sm:w-24 border border-border bg-card px-1 sm:px-2 py-1.5 h-auto rounded-md text-sm text-foreground focus:ring-2 focus:ring-ring focus:ring-offset-0 focus:outline-none">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="max-h-[200px]">
+          {CREDITS.map(c => (
+            <SelectItem key={c} value={c.toString()}>{c} cr</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       <div className="w-8 sm:w-10 flex justify-end">
         <button
           onClick={onRemove}
