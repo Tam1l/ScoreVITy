@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function GPACalculator() {
   const navigate = useNavigate();
   // We initialize semesters immediately depending on if cookie useLastOptions is true
-  const initialUseLast = getCookie('useLastOptions') === 'true';
+  const initialUseLast = getCookie('useLastOptions') !== 'false';
   const initialOptions = initialUseLast ? loadUserOptions() : null;
   const initialSemesters = initialOptions?.gpaSemesters?.length ? initialOptions.gpaSemesters : [createSemester(1)];
 

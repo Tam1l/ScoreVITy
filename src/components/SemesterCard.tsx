@@ -40,7 +40,7 @@ export default function SemesterCard({ semester, onChange, onRemove, canRemove }
       exit={{ opacity: 0, scale: 0.95 }}
       className="bg-card rounded-xl border border-border shadow-sm overflow-hidden"
     >
-      <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-muted/30">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-border bg-muted/30">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
             <GraduationCap size={16} className="text-primary" />
@@ -49,20 +49,14 @@ export default function SemesterCard({ semester, onChange, onRemove, canRemove }
             type="text"
             value={semester.name}
             onChange={e => onChange({ ...semester, name: e.target.value })}
-            className="bg-transparent font-semibold text-foreground outline-none text-base"
+            className="bg-transparent font-semibold text-foreground outline-none text-base w-32 sm:w-auto"
           />
         </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <div className="text-xs text-muted-foreground">{totalCredits} credits</div>
-            <div className="text-lg font-bold text-primary font-['Space_Grotesk']">{gpa.toFixed(2)}</div>
-          </div>
-          {canRemove && (
-            <button onClick={onRemove} className="text-muted-foreground hover:text-destructive transition-colors p-1.5 rounded-md hover:bg-destructive/10">
-              <Trash2 size={16} />
-            </button>
-          )}
-        </div>
+        {canRemove && (
+          <button onClick={onRemove} className="text-muted-foreground hover:text-destructive transition-colors p-1.5 rounded-md hover:bg-destructive/10">
+            <Trash2 size={16} />
+          </button>
+        )}
       </div>
 
       <div className="px-2 sm:px-3 py-2">
@@ -93,6 +87,12 @@ export default function SemesterCard({ semester, onChange, onRemove, canRemove }
         >
           <Plus size={14} /> Add Course
         </button>
+
+        <div className="mt-4 mb-2 pt-4 pb-2 border-t border-border text-center">
+          <div className="text-sm font-medium text-muted-foreground mb-1">Semester GPA</div>
+          <div className="text-3xl font-bold text-primary font-['Space_Grotesk']">{gpa.toFixed(2)}</div>
+          <div className="text-xs text-muted-foreground mt-1">{totalCredits} total credits</div>
+        </div>
       </div>
     </motion.div>
   );

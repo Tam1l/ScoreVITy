@@ -16,7 +16,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { FeedbackBox } from "@/components/FeedbackBox";
 
 const App = () => (
-  <ThemeProvider defaultTheme="system" storageKey="gpa-guru-theme">
+  <ThemeProvider defaultTheme="light" storageKey="gpa-guru-theme">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
