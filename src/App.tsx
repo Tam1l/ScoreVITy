@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { FeedbackBox } from "@/components/FeedbackBox";
 
 const App = () => (
   <ThemeProvider defaultTheme="system" storageKey="gpa-guru-theme">
@@ -21,6 +22,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <ThemeToggle />
+        <FeedbackBox />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
