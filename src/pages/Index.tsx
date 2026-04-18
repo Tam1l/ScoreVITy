@@ -69,7 +69,7 @@ export default function Index() {
       </main>
 
       <footer className="text-center text-xs text-muted-foreground pb-6">
-        VIT 10-point grading scale
+        <p className="mt-1"> By  7s </p>
       </footer>
     </div>
   );

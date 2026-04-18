@@ -18,7 +18,7 @@ function createSemEntry(index: number): SemesterGPA {
 export default function CGPACalculator() {
   const navigate = useNavigate();
 
-  const initialUseLast = getCookie('useLastOptions') !== 'false';
+  const initialUseLast = getCookie('useLastOptions') === 'true';
   const initialOptions = initialUseLast ? loadUserOptions() : null;
   // Note: we can map the generic Semester type to SemesterGPA implicitly, or save it under a different key like `cgpaSemesters`
   // We'll trust whatever is saved in `cgpaSemesters`

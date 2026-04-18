@@ -10,7 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [useLast, setUseLast] = useState(getCookie('useLastOptions') !== 'false')
+  const [useLast, setUseLast] = useState(getCookie('useLastOptions') === 'true')
 
   useEffect(() => {
     const handleSync = (e: Event) => {
