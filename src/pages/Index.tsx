@@ -68,9 +68,6 @@ export default function Index() {
         </div>
       </main>
 
-      <footer className="text-center text-xs text-muted-foreground pb-6">
-        <p className="mt-1"> By  7s </p>
-      </footer>
     </div>
   );
 }
